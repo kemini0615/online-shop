@@ -2,6 +2,7 @@ const path = require("path");
 
 const express = require("express");
 const authRouter = require("./routes/auth-routes");
+const mongodb = require("./database/mongodb");
 
 const app = express();
 
@@ -12,4 +13,12 @@ app.use(express.static("public")); // static middleware handles requrests for st
 
 app.use(authRouter);
 
-app.listen(3000);
+mongodb
+  .connectToDatabase()
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log("Failed to connect to DB.");
+    console.log(err);
+  });
