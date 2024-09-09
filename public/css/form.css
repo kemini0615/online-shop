@@ -1,0 +1,19 @@
+form hr {
+  border-color: var(--color-primary-200);
+  margin: var(--space-4);
+}
+
+form label {
+  color: var(--color-gray-100);
+  display: block;
+  margin-bottom: var(--space-2);
+}
+
+form input,
+form textarea {
+  font: inherit; /* need to force io inherit font since input & textarea elements have theur own font */
+  padding: var(--space-2);
+  border-radius: var(--border-radius-small);
+  border: none;
+  width: 90%;
+}
