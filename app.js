@@ -11,6 +11,8 @@ const productRouter = require("./routes/product-routes");
 const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
 const handleErrors = require("./middlewares/handleErrors");
+const checkAuthStatus = require("./middlewares/checkAuthStatus");
+
 const createSessionConfig = require("./config/session-config");
 
 const app = express();
@@ -27,6 +29,8 @@ app.use(express.urlencoded({ extended: false })); // urlencoded middleware parse
  */
 const sessionConfig = createSessionConfig();
 app.use(session(sessionConfig)); // session middleware checks a session cookie which is sent along with the request
+
+app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
 
 app.use(csrf()); // csrf middleware denys POST requests which do not have csrf token
 app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to clients
