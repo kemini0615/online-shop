@@ -5,7 +5,7 @@ function getSignup(req, res) {
   res.render("customer/auth/signup");
 }
 
-async function signup(req, res) {
+async function signup(req, res, next) {
   const user = new User(
     req.body.email,
     req.body.password,
@@ -14,18 +14,33 @@ async function signup(req, res) {
     req.body.postal
   );
 
-  await user.signup();
+  // Express error handler middleware could not handle asynchronous errors
+  // You should handle these kinds of errors with try-catch
+  try {
+    await user.signup();
+  } catch(err) {
+    next(); // express error handler middleware would be active
+    return;
+  }
 
   res.redirect("/login");
 }
 
-function getLogin(req, res) {
+function getLogin(req, res, next) {
   res.render("customer/auth/login");
 }
 
 async function login(req, res) {
   const user = new User(req.body.email, req.body.password);
-  const existingUser = await user.getUserWithSameEmail();
+
+  let existingUser;
+  
+  try {
+    existingUser = await user.getUserWithSameEmail();
+  } catch(err) {
+    next();
+    return;
+  }
 
   if (!existingUser) {
     res.redirect("/login");
