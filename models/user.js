@@ -11,6 +11,16 @@ class User {
     this.postal = postal;
   }
 
+  async existsAlready() {
+    const existingUser = await this.getUserWithSameEmail();
+
+    if (existingUser) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getUserWithSameEmail() {
     return mongodb.getDatabase().collection("users").findOne({ email: this.email });
   }

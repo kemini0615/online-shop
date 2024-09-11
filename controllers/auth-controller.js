@@ -1,11 +1,25 @@
 const User = require("../models/user");
 const authUtil = require("../utils/authentication");
+const validationUtil = require("../utils/validation");
 
 function getSignup(req, res) {
   res.render("customer/auth/signup");
 }
 
 async function signup(req, res, next) {
+  if (
+    !validationUtil.checkValidationForSignup(
+      req.body.email,
+      req.body.password,
+      req.body.fullname,
+      req.body.address,
+      req.body.postal
+    ) || !validationUtil.emailIsConfirmed(req.body.email, req.body['confirm-email'])
+  ) {
+    res.redirect("/signup");
+    return;
+  }
+
   const user = new User(
     req.body.email,
     req.body.password,
@@ -17,8 +31,13 @@ async function signup(req, res, next) {
   // Express error handler middleware could not handle asynchronous errors
   // You should handle these kinds of errors with try-catch
   try {
+    if (await user.existsAlready()) {
+      res.redirect("/signup");
+      return;
+    }
+
     await user.signup();
-  } catch(err) {
+  } catch (err) {
     next(); // express error handler middleware would be active
     return;
   }
@@ -34,10 +53,10 @@ async function login(req, res) {
   const user = new User(req.body.email, req.body.password);
 
   let existingUser;
-  
+
   try {
     existingUser = await user.getUserWithSameEmail();
-  } catch(err) {
+  } catch (err) {
     next();
     return;
   }
@@ -47,21 +66,23 @@ async function login(req, res) {
     return;
   }
 
-  const passwordIsCorrect = await user.hasCorrectPassword(existingUser.password);
+  const passwordIsCorrect = await user.hasCorrectPassword(
+    existingUser.password
+  );
 
   if (!passwordIsCorrect) {
     res.redirect("/login");
     return;
   }
 
-  authUtil.createUserSession(req, existingUser, function() {
+  authUtil.createUserSession(req, existingUser, function () {
     res.redirect("/");
-  })
+  });
 }
 
 function logout(req, res) {
   authUtil.destroyUserSession(req);
-  res.redirect("/")
+  res.redirect("/");
 }
 
 module.exports = {
@@ -69,5 +90,5 @@ module.exports = {
   signup: signup,
   getLogin: getLogin,
   login: login,
-  logout: logout
+  logout: logout,
 };
