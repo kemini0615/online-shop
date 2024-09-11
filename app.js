@@ -4,7 +4,10 @@ const express = require("express");
 const csrf = require("csurf");
 const session = require("express-session");
 
+const baseRouter = require("./routes/base-routes");
 const authRouter = require("./routes/auth-routes");
+const productRouter = require("./routes/product-routes");
+
 const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
 const handleErrors = require("./middlewares/handleErrors");
@@ -28,7 +31,9 @@ app.use(session(sessionConfig)); // session middleware checks a session cookie w
 app.use(csrf()); // csrf middleware denys POST requests which do not have csrf token
 app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to clients
 
+app.use(baseRouter);
 app.use(authRouter);
+app.use(productRouter);
 
 app.use(handleErrors); // handleErrors middleware handles errors
 

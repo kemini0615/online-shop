@@ -11,6 +11,14 @@ class User {
     this.postal = postal;
   }
 
+  getUserWithSameEmail() {
+    return mongodb.getDatabase().collection("users").findOne({ email: this.email });
+  }
+
+  hasCorrectPassword(hashedPassword) {
+    return bcrypt.compare(this.password, hashedPassword)
+  }
+
   async signup() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
 
@@ -22,6 +30,8 @@ class User {
       postal: this.postal
     });
   }
+
+
 }
 
 // You could export a class as well
