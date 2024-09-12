@@ -2,8 +2,8 @@ function isEmpty(value) {
   return !value || value.trim() === "";
 }
 
-function emailIsConfirmed(email, confirmEmail) {
-  return email === confirmEmail;
+function passwordIsConfirmed(password, confirmPassword) {
+  return password === confirmPassword;
 }
 
 function checkValidationForLogin(email, password) {
@@ -25,7 +25,7 @@ function checkValidationForSignup(email, password, fullname, address, postal) {
 }
 
 module.exports = {
-  emailIsConfirmed: emailIsConfirmed,
+  passwordIsConfirmed: passwordIsConfirmed,
   checkValidationForLogin: checkValidationForLogin,
   checkValidationForSignup: checkValidationForSignup,
 };

@@ -6,15 +6,21 @@
   <%- include("../../shared/includes/header") %>
   <main>
     <h1>Login</h1>
+    <% if (flash.errorLog) { %>
+      <section class="alert">
+        <h2>Login Falied.</h2>
+        <p><%= flash.errorLog %></p>
+      </section>
+    <% } %>
     <form action="/login" method="POST">
       <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>">
       <p>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" value="<%= flash.email %>" required>
       </p>
       <p>
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required minlength="6">
+        <input type="password" id="password" name="password" value="<%= flash.password %>" required minlength="6">
       </p>
       <button class="btn">Login</button>
       <p id="switch-form"><a href="/signup">Create Account</a></p>
