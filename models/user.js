@@ -22,11 +22,14 @@ class User {
   }
 
   getUserWithSameEmail() {
-    return mongodb.getDatabase().collection("users").findOne({ email: this.email });
+    return mongodb
+      .getDatabase()
+      .collection("users")
+      .findOne({ email: this.email });
   }
 
   hasCorrectPassword(hashedPassword) {
-    return bcrypt.compare(this.password, hashedPassword)
+    return bcrypt.compare(this.password, hashedPassword);
   }
 
   async signup() {
@@ -37,11 +40,9 @@ class User {
       password: hashedPassword,
       fullname: this.fullname,
       address: this.address,
-      postal: this.postal
+      postal: this.postal,
     });
   }
-
-
 }
 
 // You could export a class as well
