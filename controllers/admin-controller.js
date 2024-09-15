@@ -6,7 +6,12 @@ function getAddProduct(req, res) {
   res.render("admin/products/add-product");
 }
 
-function addProduct() {}
+function addProduct(req, res) {
+  console.log(req.body);
+  console.log(req.file);
+
+  res.redirect("/admin/products");
+}
 
 module.exports = {
   getProducts: getProducts,
