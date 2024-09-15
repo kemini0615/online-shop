@@ -7,6 +7,7 @@ const session = require("express-session");
 const baseRouter = require("./routes/base-routes");
 const authRouter = require("./routes/auth-routes");
 const productRouter = require("./routes/product-routes");
+const adminRouter = require("./routes/admin-routes");
 
 const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
@@ -38,6 +39,7 @@ app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to c
 app.use(baseRouter);
 app.use(authRouter);
 app.use(productRouter);
+app.use("/admin", adminRouter); // filters requests only which have path starting '/admin'
 
 app.use(handleErrors); // handleErrors middleware handles errors
 
