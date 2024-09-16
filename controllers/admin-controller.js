@@ -36,7 +36,7 @@ async function addProduct(req, res, next) {
   res.redirect("/admin/products");
 }
 
-async function getUpdateProduct(req, res) {
+async function getUpdateProduct(req, res, next) {
   try {
     const product = await Product.findById(req.params.productId);
     res.render("admin/products/update-product", { product: product });
