@@ -46,8 +46,24 @@ async function getUpdateProduct(req, res) {
   }
 }
 
-function updateProduct() {
+async function updateProduct(req, res) {
+  const product = new Product({
+    ...req.body,
+    _id: req.params.productId
+  });
 
+  if (req.file) {
+    product.replaceImage(req.file.filename);
+  }
+
+  try {
+    await product.save();
+  } catch (err) {
+    next(err);
+    return;
+  }
+
+  res.redirect("/admin/products");
 }
 
 module.exports = {

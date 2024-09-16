@@ -12,8 +12,12 @@ class Product {
     this.price = +productData.price;
     this.description = productData.description;
     this.image = productData.image; // name of the image whici is unique
-    this.imagePath = `data/products/images/${productData.image}`;
-    this.imageUrl = `/products/assets/products/images/${productData.image}`;
+    this.setImageData();
+  }
+
+  setImageData() {
+    this.imagePath = `data/products/images/${this.image}`;
+    this.imageUrl = `/products/assets/products/images/${this.image}`;
   }
 
   static async findById(id) {
@@ -32,7 +36,7 @@ class Product {
       throw error;
     }
     
-    return product;
+    return new Product(product);
   }
 
   static async findAll() {
@@ -53,8 +57,20 @@ class Product {
       image: this.image
     }
 
-    await db.getDatabase().collection("products").insertOne(productData);
+    if (this.id) {
+      const productId = new mongodb.ObjectId(this.id);
+      if (!this.image) {
+        delete productData.image; // delete key of the object
+      }
+      await db.getDatabase().collection("products").updateOne({ _id: productId }, { $set: {...productData} } );
+    } else {
+      await db.getDatabase().collection("products").insertOne(productData);
+    }
+  }
 
+  replaceImage(newImage) {
+    this.image = newImage;
+    this.setImageData();
   }
 }
 
