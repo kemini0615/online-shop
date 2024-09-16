@@ -15,8 +15,8 @@ function getAddProduct(req, res) {
     title: "",
     summary: "",
     price: "",
-    description: ""
-  }
+    description: "",
+  };
   res.render("admin/products/add-product", { product: noProduct });
 }
 
@@ -49,7 +49,7 @@ async function getUpdateProduct(req, res) {
 async function updateProduct(req, res) {
   const product = new Product({
     ...req.body,
-    _id: req.params.productId
+    _id: req.params.productId,
   });
 
   if (req.file) {
@@ -76,7 +76,11 @@ async function deleteProduct(req, res, next) {
     return;
   }
 
-  res.render("/admin/products");
+  // this request is javascript-driven so that we should not render any view
+  // res.render("/admin/products");
+  res.json({
+    message: "Product deleted.",
+  });
 }
 
 module.exports = {
@@ -85,5 +89,5 @@ module.exports = {
   addProduct: addProduct,
   getUpdateProduct: getUpdateProduct,
   updateProduct: updateProduct,
-  deleteProduct: deleteProduct
+  deleteProduct: deleteProduct,
 };
