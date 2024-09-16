@@ -13,6 +13,7 @@ const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
 const handleErrors = require("./middlewares/handleErrors");
 const checkAuthStatus = require("./middlewares/checkAuthStatus");
+const checkAdminStatus = require("./middlewares/checkAdminStatus");
 
 const createSessionConfig = require("./config/session-config");
 
@@ -40,6 +41,8 @@ app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to c
 app.use(baseRouter);
 app.use(authRouter);
 app.use(productRouter);
+
+app.use(checkAdminStatus); // checkAminStatus middleware denys if you are not an administrator
 app.use("/admin", adminRouter); // filters requests only which have path starting '/admin'
 
 app.use(handleErrors); // handleErrors middleware handles errors
