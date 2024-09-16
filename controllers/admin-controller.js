@@ -11,7 +11,13 @@ async function getProducts(req, res) {
 }
 
 function getAddProduct(req, res) {
-  res.render("admin/products/add-product");
+  const noProduct = {
+    title: "",
+    summary: "",
+    price: "",
+    description: ""
+  }
+  res.render("admin/products/add-product", { product: noProduct });
 }
 
 async function addProduct(req, res, next) {
@@ -30,8 +36,24 @@ async function addProduct(req, res, next) {
   res.redirect("/admin/products");
 }
 
+async function getUpdateProduct(req, res) {
+  try {
+    const product = await Product.findById(req.params.productId);
+    res.render("admin/products/update-product", { product: product });
+  } catch (err) {
+    next(err);
+    return;
+  }
+}
+
+function updateProduct() {
+
+}
+
 module.exports = {
   getProducts: getProducts,
   getAddProduct: getAddProduct,
   addProduct: addProduct,
+  getUpdateProduct: getUpdateProduct,
+  updateProduct: updateProduct
 };

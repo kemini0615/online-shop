@@ -7,7 +7,11 @@ const router = express.Router();
 
 // '/admin' is omiited from path
 router.get("/products", adminController.getProducts);
+
 router.get("/products/add", adminController.getAddProduct);
 router.post("/products/add", handleImage, adminController.addProduct);
+
+router.get("/products/update/:productId", adminController.getUpdateProduct); // dynamic routes
+router.post("/products/update/:productId", adminController.updateProduct);
 
 module.exports = router;

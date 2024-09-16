@@ -1,0 +1,28 @@
+<!-- 'enctype' of form data with images should be 'multipart/form-data' -->
+<!-- 'multipart/form-data' could not send csrf tokens with input element which is hidden -->
+<form action="<%= path %>?_csrf=<%= locals.csrfToken %>" method="POST" enctype="multipart/form-data">
+  <p>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" value="<%= product.title %>" required>
+  </p>
+  <p>
+    <label for="image">Image</label>
+    <input type="file" id="image" name="image" accept="image/png,image/jpg">
+  </p>
+  <p>
+    <label for="summary">Summary</label>
+    <input type="text" id="summary" name="summary" value="<%= product.summary %>" required maxlength="255">
+  </p>
+  <p>
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" value="<%= product.price %>" required min="1000" step="1000">
+  </p>
+  <p>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="7" required><%= product.description %></textarea>
+  </p>
+  <p>
+    <button type="reset" class="btn btn-alt">Reset</button>
+    <button type="submit" class="btn">Submit</button>
+  </p>
+</form>

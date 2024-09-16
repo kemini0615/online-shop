@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 
-const mongodb = require("../database/mongodb");
+const db = require("../database/mongodb");
 
 class User {
   constructor(email, password, fullname, address, postal) {
@@ -22,7 +22,7 @@ class User {
   }
 
   getUserWithSameEmail() {
-    return mongodb
+    return db
       .getDatabase()
       .collection("users")
       .findOne({ email: this.email });
@@ -35,7 +35,7 @@ class User {
   async signup() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
 
-    await mongodb.getDatabase().collection("users").insertOne({
+    await db.getDatabase().collection("users").insertOne({
       email: this.email,
       password: hashedPassword,
       fullname: this.fullname,
