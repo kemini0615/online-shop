@@ -1,5 +1,6 @@
 <%- include("../../shared/includes/head", { pageTitle: "Cart" }) %>
 <link rel="stylesheet" href="/css/cart.css">
+<script src="/js/update-cart.js" defer></script>
 </head>
 <body>
   <%- include("../../shared/includes/header") %>
@@ -12,7 +13,7 @@
         </li>
       <% } %>
       <div id="cart-total">
-        <p>Total: ₩<%= locals.cart.totalPrice %></p>
+        <p>Total: ₩<span id="cart-total-price"><%= locals.cart.totalPrice %></span></p>
         <button class="btn">Buy</button>
       </div>
     </ul>

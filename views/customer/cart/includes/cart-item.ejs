@@ -1,10 +1,10 @@
 <article class="cart-item">
   <div class="cart-item-info">
     <h2><%= item.product.title %></h2>
-    <p>₩<%= item.totalPrice %> <span class="cart-item-unit-price">(₩<%= item.product.price %>)</span></p>
+    <p>₩<span class="cart-item-total-price"><%= item.totalPrice %></span> <span class="cart-item-unit-price">(₩<%= item.product.price %>)</span></p>
   </div>
-  <div class="cart-item-update">
-    <input type="number" value="<%= item.quantity %>" required>
+  <form class="cart-item-update" data-productid="<%= item.product.id %>" data-csrf="<%= locals.csrfToken %>">
+    <input type="number" name="quantity" value="<%= item.quantity %>" required>
     <button class="btn btn-alt">Update</button>
-  </div>
+  </form>
 </article>
