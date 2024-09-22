@@ -9,6 +9,7 @@ const authRouter = require("./routes/auth-routes");
 const productRouter = require("./routes/product-routes");
 const adminRouter = require("./routes/admin-routes");
 const cartRouter = require("./routes/cart-routes");
+const orderRouter = require("./routes/order-routes");
 
 const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
@@ -38,7 +39,6 @@ app.use(session(sessionConfig)); // session middleware checks a session cookie w
 
 app.use(createCart); // initializeCart middleware creates cart model on sessions
 
-app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
 
 app.use(csrf()); // csrf middleware denys POST requests which do not have csrf token
 app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to clients
@@ -47,6 +47,9 @@ app.use(baseRouter);
 app.use(authRouter);
 app.use(productRouter);
 app.use("/cart", cartRouter); // filters requests only which have path starting '/cart'
+
+app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
+app.use("/order", orderRouter); // filters requests only which have path starting '/order'
 
 app.use(checkAdminStatus); // checkAminStatus middleware denys if you are not an administrator
 app.use("/admin", adminRouter); // filters requests only which have path starting '/admin'

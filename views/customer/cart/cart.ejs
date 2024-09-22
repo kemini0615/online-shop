@@ -14,7 +14,13 @@
       <% } %>
       <div id="cart-total">
         <p>Total: ₩<span id="cart-total-price"><%= locals.cart.totalPrice %></span></p>
-        <button class="btn">Buy</button>
+        <% if (locals.isAuth) { %>
+          <form action="/order" method="POST">
+            <button class="btn">Buy</button>
+          </form>
+        <% } else { %>
+          <p id="cart-total-fallback">Log in in order to buy products.</p>
+        <% } %>
       </div>
     </ul>
 
