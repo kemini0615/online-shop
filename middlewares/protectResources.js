@@ -1,4 +1,4 @@
-function checkAdminStatus(req, res, next) {
+function protectResources(req, res, next) {
   if (!res.locals.isAuth) {
     return res.redirect("/401");
   }
@@ -10,4 +10,4 @@ function checkAdminStatus(req, res, next) {
   next();
 }
 
-module.exports = checkAdminStatus;
+module.exports = protectResources;

@@ -15,9 +15,10 @@ const mongodb = require("./database/mongodb");
 const addCsrfToken = require("./middlewares/addCsrfToken");
 const handleErrors = require("./middlewares/handleErrors");
 const checkAuthStatus = require("./middlewares/checkAuthStatus");
-const checkAdminStatus = require("./middlewares/checkAdminStatus");
+const protectResources = require("./middlewares/protectResources");
 const createCart = require("./middlewares/createCart");
 const updateCart = require("./middlewares/updateCart");
+const handleNotFound = require("./middlewares/handleNotFound");
 
 const createSessionConfig = require("./config/session-config");
 
@@ -50,11 +51,10 @@ app.use(baseRouter);
 app.use(authRouter);
 app.use(productRouter);
 app.use("/cart", cartRouter); // filters requests only which have path starting '/cart'
-app.use("/orders", orderRouter); // filters requests only which have path starting '/orders'
+app.use("/orders", protectResources, orderRouter); // filters requests only which have path starting '/orders'
+app.use("/admin", protectResources, adminRouter); // filters requests only which have path starting '/admin'
 
-app.use(checkAdminStatus); // checkAminStatus middleware denys if you are not an administrator
-app.use("/admin", adminRouter); // filters requests only which have path starting '/admin'
-
+app.use(handleNotFound);
 app.use(handleErrors); // handleErrors middleware handles errors
 
 mongodb
