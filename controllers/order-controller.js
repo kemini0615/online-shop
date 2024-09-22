@@ -1,3 +1,7 @@
+
+require("dotenv").config();
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const Order = require("../models/order");
 const User = require("../models/user");
 
@@ -30,10 +34,40 @@ async function addOrder(req, res) {
     return;
   }
 
-  res.redirect("/orders");
+  // Stripe API
+  // https://docs.stripe.com/checkout/embedded/quickstart
+  const session = await stripe.checkout.sessions.create({
+    line_items: cart.items.map((item)=>{
+      return {
+        price_data: {
+          currency: "krw",
+          product_data: {
+            name: item.product.title,
+          },
+          unit_amount: +item.product.price
+        },
+        quantity: item.quantity,
+      }
+    }),
+    mode: 'payment',
+    success_url: `http://${process.env.DOMAIN}:3000/orders/success`,
+    cancel_url: `http://${process.env.DOMAIN}:3000/orders/cancel`,
+  });
+
+  res.redirect(303, session.url);
+}
+
+function getSuccess(req, res) {
+  res.render("customer/orders/success");
+}
+
+function getCancel(req, res) {
+  res.render("customer/orders/cancel");
 }
 
 module.exports = {
   getOrders: getOrders,
   addOrder: addOrder,
+  getSuccess: getSuccess,
+  getCancel: getCancel
 };
