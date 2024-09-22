@@ -12,7 +12,7 @@ class Cart {
       totalPrice: product.price
     };
 
-    for (const i = 0; i < this.items.length; i++) {
+    for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
 
       // update existing cart items
@@ -35,7 +35,7 @@ class Cart {
   }
 
   updateItem(productId, newQuantity) {
-    for (const i = 0; i < this.items.length; i++) {
+    for (let i = 0; i < this.items.length; i++) {
       const item = this.items[i];
 
       if (item.product.id === productId && newQuantity > 0) {
