@@ -37,7 +37,7 @@
   color: var(--color-primary-500);
 }
 
-#cart-total #cart-total-fallback {
+#cart-total .cart-total-fallback {
   font-size: 1rem;
   font-weight: normal;
 }
