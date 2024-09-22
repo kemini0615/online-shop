@@ -37,8 +37,9 @@ app.use(express.json()); // urlencoded middleware is just for html-based request
 const sessionConfig = createSessionConfig();
 app.use(session(sessionConfig)); // session middleware checks a session cookie which is sent along with the request
 
-app.use(createCart); // initializeCart middleware creates cart model on sessions
+app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
 
+app.use(createCart); // initializeCart middleware creates cart model on sessions
 
 app.use(csrf()); // csrf middleware denys POST requests which do not have csrf token
 app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to clients
@@ -47,9 +48,7 @@ app.use(baseRouter);
 app.use(authRouter);
 app.use(productRouter);
 app.use("/cart", cartRouter); // filters requests only which have path starting '/cart'
-
-app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
-app.use("/order", orderRouter); // filters requests only which have path starting '/order'
+app.use("/orders", orderRouter); // filters requests only which have path starting '/orders'
 
 app.use(checkAdminStatus); // checkAminStatus middleware denys if you are not an administrator
 app.use("/admin", adminRouter); // filters requests only which have path starting '/admin'
