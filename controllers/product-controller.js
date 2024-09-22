@@ -22,5 +22,5 @@ async function getProductDetails(req, res, next) {
 
 module.exports = {
   getAllProducts: getAllProducts,
-  getProductDetails: getProductDetails
-}
+  getProductDetails: getProductDetails,
+};

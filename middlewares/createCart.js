@@ -6,7 +6,11 @@ function createCart(req, res, next) {
   if (!req.session.cart) {
     cart = new Cart();
   } else {
-    cart = new Cart(req.session.cart.items, req.session.cart.totalQuantity, req.session.cart.totalPrice);
+    cart = new Cart(
+      req.session.cart.items,
+      req.session.cart.totalQuantity,
+      req.session.cart.totalPrice,
+    );
   }
 
   res.locals.cart = cart;

@@ -24,14 +24,14 @@ class User {
 
   static findById(userId) {
     const uid = new mongodb.ObjectId(userId);
-    return db.getDatabase().collection("users").findOne({ _id: uid }, { projection: { password: 0 } }); // don't retreive password from db
-  }
-
-  getUserWithSameEmail() {
     return db
       .getDatabase()
       .collection("users")
-      .findOne({ email: this.email });
+      .findOne({ _id: uid }, { projection: { password: 0 } }); // don't retreive password from db
+  }
+
+  getUserWithSameEmail() {
+    return db.getDatabase().collection("users").findOne({ email: this.email });
   }
 
   hasCorrectPassword(hashedPassword) {

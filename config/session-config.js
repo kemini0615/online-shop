@@ -3,7 +3,7 @@
  * express-session : https://www.npmjs.com/package/express-session
  * connect-mongodb-session : https://www.npmjs.com/package/connect-mongodb-session
  */
-const session = require("express-session")
+const session = require("express-session");
 const mongoDBSession = require("connect-mongodb-session");
 
 function createSessionStore() {
@@ -12,7 +12,7 @@ function createSessionStore() {
   const store = new MongoDBStore({
     uri: "mongodb://127.0.0.1:27017",
     databaseName: "online-shop",
-    collection: "sessions"
+    collection: "sessions",
   });
 
   return store;
@@ -25,8 +25,8 @@ function createSessionConfig() {
     saveUninitialized: false,
     store: createSessionStore(),
     cookie: {
-      maxAge: 2 * 24 * 60 * 60 * 1000
-    }
+      maxAge: 2 * 24 * 60 * 60 * 1000,
+    },
   };
 }
 

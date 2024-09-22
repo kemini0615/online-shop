@@ -36,11 +36,11 @@ async function signup(req, res, next) {
       req.body.password,
       req.body.fullname,
       req.body.address,
-      req.body.postal
+      req.body.postal,
     ) ||
     !validationUtil.passwordIsConfirmed(
       req.body["password"],
-      req.body["confirm-password"]
+      req.body["confirm-password"],
     )
   ) {
     flashUtil.flashDataToSession(
@@ -49,7 +49,7 @@ async function signup(req, res, next) {
         errorLog: "Invalid Data.",
         ...userInputData,
       },
-      function () {}
+      function () {},
     );
     res.redirect("/signup");
     return;
@@ -60,7 +60,7 @@ async function signup(req, res, next) {
     req.body.password,
     req.body.fullname,
     req.body.address,
-    req.body.postal
+    req.body.postal,
   );
 
   // Express error handler middleware could not handle asynchronous errors
@@ -73,7 +73,7 @@ async function signup(req, res, next) {
           errorLog: "Existing user.",
           ...userInputData,
         },
-        function () {}
+        function () {},
       );
       res.redirect("/signup");
       return;
@@ -121,14 +121,14 @@ async function login(req, res) {
         email: req.body.email,
         password: req.body.password,
       },
-      function () {}
+      function () {},
     );
     res.redirect("/login");
     return;
   }
 
   const passwordIsCorrect = await user.hasCorrectPassword(
-    existingUser.password
+    existingUser.password,
   );
 
   if (!passwordIsCorrect) {
@@ -139,7 +139,7 @@ async function login(req, res) {
         email: req.body.email,
         password: req.body.password,
       },
-      function () {}
+      function () {},
     );
     res.redirect("/login");
     return;

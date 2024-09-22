@@ -9,7 +9,7 @@ async function deleteProduct(event) {
     "/admin/products/delete/" + productId + "?_csrf=" + csrfToken,
     {
       method: "DELETE",
-    }
+    },
   );
 
   if (!response.ok) {

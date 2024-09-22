@@ -22,35 +22,48 @@ class Order {
         orderDocument.productInfo,
         orderDocument.status,
         orderDocument.date,
-        orderDocument._id
+        orderDocument._id,
       );
-    })
+    });
   }
 
   static async findAll() {
-    const allOrderDocuments = await db.getDatabase().collection("orders").find().sort({ _id: -1 }).toArray(); // descending order by id
+    const allOrderDocuments = await db
+      .getDatabase()
+      .collection("orders")
+      .find()
+      .sort({ _id: -1 })
+      .toArray(); // descending order by id
     return this.transformOrderDocuments(allOrderDocuments);
   }
 
   static async findAllForUser(userId) {
     const uid = new mongodb.ObjectId(userId);
 
-    const orderDocuments = await db.getDatabase().collection("orders").find({ "userInfo._id": uid }).sort({ _id: -1 }).toArray();
+    const orderDocuments = await db
+      .getDatabase()
+      .collection("orders")
+      .find({ "userInfo._id": uid })
+      .sort({ _id: -1 })
+      .toArray();
 
     return this.transformOrderDocuments(orderDocuments);
   }
 
   static async findById(orderId) {
-    const orderDocument = await db.getDatabase().collection("orders").findOne({ _id: new mongodb.ObjectId(orderId) });
+    const orderDocument = await db
+      .getDatabase()
+      .collection("orders")
+      .findOne({ _id: new mongodb.ObjectId(orderId) });
 
     const order = new Order(
       orderDocument.userInfo,
       orderDocument.productInfo,
       orderDocument.status,
       orderDocument.date,
-      orderDocument._id
+      orderDocument._id,
     );
-    
+
     return order;
   }
 
@@ -58,14 +71,16 @@ class Order {
     if (this.id) {
       // update old order
       const orderId = new mongodb.ObjectId(this.id);
-      db.getDatabase().collection("orders").updateOne({ _id: orderId }, { $set: { status: this.status } });
+      db.getDatabase()
+        .collection("orders")
+        .updateOne({ _id: orderId }, { $set: { status: this.status } });
     } else {
       // create new order
       const orderDocument = {
         userInfo: this.userInfo,
         productInfo: this.productInfo,
         date: new Date(),
-        status: this.status
+        status: this.status,
       };
 
       return db.getDatabase().collection("orders").insertOne(orderDocument);

@@ -11,7 +11,7 @@ class Cart {
     const cartItem = {
       product: product,
       quantity: 1,
-      totalPrice: product.price
+      totalPrice: product.price,
     };
 
     for (let i = 0; i < this.items.length; i++) {
@@ -46,7 +46,7 @@ class Cart {
         cartItem.totalPrice = newQuantity * item.product.price;
 
         this.items[i] = cartItem;
-        this.totalQuantity += (newQuantity - item.quantity);
+        this.totalQuantity += newQuantity - item.quantity;
         this.totalPrice += item.product.price * (newQuantity - item.quantity);
         return cartItem.totalPrice;
       } else if (item.product.id === productId && newQuantity <= 0) {
@@ -61,15 +61,15 @@ class Cart {
   async updateCart() {
     const productIds = this.items.map((item) => {
       return item.product.id;
-    })
+    });
 
     const products = await Product.findMultiple(productIds);
 
     const deletableIds = [];
 
     for (let cartItem of this.items) {
-      const product = products.find((product)=>{
-        return product.id = cartItem.product.id;
+      const product = products.find((product) => {
+        return (product.id = cartItem.product.id);
       });
 
       if (!product) {
@@ -82,9 +82,9 @@ class Cart {
     }
 
     if (deletableIds.length > 0) {
-      this.items = this.items.filter((item)=>{
-        return deletableIds.indexOf(item.product.id) < 0
-      })
+      this.items = this.items.filter((item) => {
+        return deletableIds.indexOf(item.product.id) < 0;
+      });
     }
 
     this.totalPrice = 0;

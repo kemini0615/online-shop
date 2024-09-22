@@ -1,8 +1,10 @@
-const updateOrderStatusFormEls = document.querySelectorAll(".order-actions form");
+const updateOrderStatusFormEls = document.querySelectorAll(
+  ".order-actions form",
+);
 
 async function updateOrderStatus(event) {
   event.preventDefault();
-  
+
   const formEl = event.target;
   const formData = new FormData(formEl);
   const status = formData.get("status");
@@ -15,10 +17,10 @@ async function updateOrderStatus(event) {
       method: "PATCH",
       body: JSON.stringify({
         status: status,
-        _csrf: csrfToken
+        _csrf: csrfToken,
       }),
       headers: {
-        'Content-Type': "application/json",
+        "Content-Type": "application/json",
       },
     });
   } catch (error) {
@@ -26,14 +28,15 @@ async function updateOrderStatus(event) {
     return;
   }
 
-  if(!response.ok) {
+  if (!response.ok) {
     alert("Failed to update status of order.");
     return;
   }
 
   const responseData = await response.json();
 
-  formEl.parentElement.parentElement.querySelector(".badge").textContent = responseData.status.toUpperCase();
+  formEl.parentElement.parentElement.querySelector(".badge").textContent =
+    responseData.status.toUpperCase();
 }
 
 for (let el of updateOrderStatusFormEls) {

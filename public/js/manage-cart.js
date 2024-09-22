@@ -11,11 +11,11 @@ async function addToCart(event) {
       method: "POST",
       body: JSON.stringify({
         productId: productId,
-        _csrf: csrfToken
+        _csrf: csrfToken,
       }),
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     });
   } catch (err) {
     alert("Failed to add product to cart.");

@@ -22,7 +22,7 @@ async function updateCartItem(event) {
         "Content-Type": "application/json",
       },
     });
-  } catch(err) {
+  } catch (err) {
     alert("Failed to update cart item.");
     return;
   }
@@ -37,7 +37,9 @@ async function updateCartItem(event) {
   if (responseData.newCart.newItemTotalPrice === 0) {
     formEl.parentElement.parentElement.remove();
   } else {
-    const cartItemTotalPriceEl = formEl.parentElement.querySelector(".cart-item-total-price");
+    const cartItemTotalPriceEl = formEl.parentElement.querySelector(
+      ".cart-item-total-price",
+    );
     cartItemTotalPriceEl.textContent = responseData.newCart.newItemTotalPrice;
   }
 

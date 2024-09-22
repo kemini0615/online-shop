@@ -5,7 +5,7 @@ async function getOrders(req, res, next) {
   try {
     const orders = await Order.findAllForUser(res.locals.uid);
     res.render("customer/orders/all-orders", {
-      orders: orders
+      orders: orders,
     });
   } catch (error) {
     next(error);
@@ -35,5 +35,5 @@ async function addOrder(req, res) {
 
 module.exports = {
   getOrders: getOrders,
-  addOrder: addOrder
-}
+  addOrder: addOrder,
+};
