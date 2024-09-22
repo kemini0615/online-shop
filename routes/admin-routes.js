@@ -9,11 +9,17 @@ const router = express.Router();
 router.get("/products", adminController.getProducts);
 
 router.get("/products/add", adminController.getAddProduct);
+
 router.post("/products/add", handleImage, adminController.addProduct);
 
 router.get("/products/update/:productId", adminController.getUpdateProduct); // dynamic routes
+
 router.post("/products/update/:productId", handleImage, adminController.updateProduct);
 
 router.delete("/products/delete/:productId", adminController.deleteProduct);
+
+router.get("/orders", adminController.getOrders);
+
+router.patch("/orders/:id", adminController.updateOrder);
 
 module.exports = router;
