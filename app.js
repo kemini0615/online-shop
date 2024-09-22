@@ -17,6 +17,7 @@ const handleErrors = require("./middlewares/handleErrors");
 const checkAuthStatus = require("./middlewares/checkAuthStatus");
 const checkAdminStatus = require("./middlewares/checkAdminStatus");
 const createCart = require("./middlewares/createCart");
+const updateCart = require("./middlewares/updateCart");
 
 const createSessionConfig = require("./config/session-config");
 
@@ -39,7 +40,8 @@ app.use(session(sessionConfig)); // session middleware checks a session cookie w
 
 app.use(checkAuthStatus); // checkAuthStatus middleware checks if an user is logged in or not
 
-app.use(createCart); // initializeCart middleware creates cart model on sessions
+app.use(createCart); // createCart middleware creates cart model on sessions
+app.use(updateCart); // updateCart middleware updates cart for updated price or quantity
 
 app.use(csrf()); // csrf middleware denys POST requests which do not have csrf token
 app.use(addCsrfToken); // addCsrfToken middleware adds and gives csrf token to clients

@@ -1,3 +1,5 @@
+const Product = require("./product");
+
 class Cart {
   constructor(items = [], totalQuantity = 0, totalPrice = 0) {
     this.items = items;
@@ -53,6 +55,44 @@ class Cart {
         this.totalPrice -= item.totalPrice;
         return 0;
       }
+    }
+  }
+
+  async updateCart() {
+    const productIds = this.items.map((item) => {
+      return item.product.id;
+    })
+
+    const products = await Product.findMultiple(productIds);
+
+    const deletableIds = [];
+
+    for (let cartItem of this.items) {
+      const product = products.find((product)=>{
+        return product.id = cartItem.product.id;
+      });
+
+      if (!product) {
+        deletableIds.push(cartItem.product.id);
+        continue;
+      }
+
+      cartItem.product = product;
+      cartItem.totalPrice = cartItem.quantity * cartItem.product.price;
+    }
+
+    if (deletableIds.length > 0) {
+      this.items = this.items.filter((item)=>{
+        return deletableIds.indexOf(item.product.id) < 0
+      })
+    }
+
+    this.totalPrice = 0;
+    this.totalQuantity = 0;
+
+    for (let item of this.items) {
+      this.totalPrice = this.totalPrice + item.totalPrice;
+      this.totalQuantity = this.totalQuantity + item.quantity;
     }
   }
 }
