@@ -60,7 +60,7 @@ app.use(handleErrors); // handleErrors middleware handles errors
 mongodb
   .connectToDatabase()
   .then(() => {
-    app.listen(3000);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log("Failed to connect to DB.");

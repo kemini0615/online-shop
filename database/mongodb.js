@@ -3,7 +3,7 @@ const mongodb = require("mongodb");
 let database;
 
 async function connectToDatabase() {
-  const client = await mongodb.MongoClient.connect("mongodb://127.0.0.1:27017");
+  const client = await mongodb.MongoClient.connect(process.env.MONGODB_URL);
   database = client.db("online-shop");
 }
 
