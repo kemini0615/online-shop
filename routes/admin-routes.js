@@ -17,7 +17,7 @@ router.get("/products/update/:productId", adminController.getUpdateProduct); // 
 router.post(
   "/products/update/:productId",
   handleImage,
-  adminController.updateProduct,
+  adminController.updateProduct
 );
 
 router.delete("/products/delete/:productId", adminController.deleteProduct);
