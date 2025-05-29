@@ -1,4 +1,4 @@
-function checkAuthStatus(req, res, next) {
+function authencate(req, res, next) {
   const uid = req.session.uid;
   if (!uid) {
     return next();
@@ -10,4 +10,4 @@ function checkAuthStatus(req, res, next) {
   next();
 }
 
-module.exports = checkAuthStatus;
+module.exports = authencate;

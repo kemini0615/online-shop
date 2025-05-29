@@ -1,8 +1,11 @@
 const path = require("path");
 
 const express = require("express");
-const csrf = require("csurf");
 const session = require("express-session");
+const csrf = require("csurf");
+
+const mongodb = require("./database/mongodb");
+const getSessionConfig = require("./config/session-config");
 
 const baseRouter = require("./routes/base-routes");
 const authRouter = require("./routes/auth-routes");
@@ -11,16 +14,13 @@ const adminRouter = require("./routes/admin-routes");
 const cartRouter = require("./routes/cart-routes");
 const orderRouter = require("./routes/order-routes");
 
-const mongodb = require("./database/mongodb");
+const authencate = require("./middlewares/authencate");
 const addCsrfToken = require("./middlewares/addCsrfToken");
 const handleErrors = require("./middlewares/handleErrors");
-const checkAuthStatus = require("./middlewares/checkAuthStatus");
 const protectResources = require("./middlewares/protectResources");
 const createCart = require("./middlewares/createCart");
 const updateCart = require("./middlewares/updateCart");
 const handleNotFound = require("./middlewares/handleNotFound");
-
-const createSessionConfig = require("./config/session-config");
 
 // express() 함수를 호출해서 새로운 Express 앱 객체를 생성합니다.
 // 이 'app' 객체를 통해 모든 서버 설정을 하게 됩니다.
@@ -47,12 +47,12 @@ app.use(express.urlencoded({ extended: false }));
 // 클라이언트의 'json 데이터'를 파싱할 수 있게 해줍니다.
 app.use(express.json());
 
-// 요청에 세션 쿠키가 포함됐다면 session() 미들웨어가 세션 쿠키를 확인하고 세션 데이터를 가져온다.
-// 요청에 세션 쿠키가 포함되지 않았다면 새로운 세션이 생성되고, 세션 ID를 클라이언트에게 전달한다.
-const sessionConfig = createSessionConfig();
-app.use(session(sessionConfig));
+// 세션 시작
+// req.session 객체 활성화
+const config = getSessionConfig();
+app.use(session(config));
 
-app.use(checkAuthStatus);
+app.use(authencate);
 
 app.use(createCart);
 app.use(updateCart);
@@ -71,11 +71,11 @@ app.use(handleNotFound);
 app.use(handleErrors);
 
 mongodb
-  .connectToDatabase()
+  .initDB()
   .then(() => {
     app.listen(process.env.PORT);
   })
   .catch((err) => {
-    console.log("Failed to connect to DB.");
+    console.log("DB 연결에 실패했습니다.");
     console.log(err);
   });

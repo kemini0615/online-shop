@@ -9,7 +9,7 @@ function createCart(req, res, next) {
     cart = new Cart(
       req.session.cart.items,
       req.session.cart.totalQuantity,
-      req.session.cart.totalPrice,
+      req.session.cart.totalPrice
     );
   }
 

@@ -1,21 +1,21 @@
 const mongodb = require("mongodb");
 
-let database;
+let db;
 
-async function connectToDatabase() {
+async function initDB() {
   const client = await mongodb.MongoClient.connect(process.env.MONGODB_URL);
-  database = client.db("online-shop");
+  db = client.db("online-shop");
 }
 
-function getDatabase() {
-  if (!database) {
+function getDB() {
+  if (!db) {
     throw new Error();
   }
 
-  return database;
+  return db;
 }
 
 module.exports = {
-  connectToDatabase: connectToDatabase,
-  getDatabase: getDatabase,
+  initDB: initDB,
+  getDB: getDB,
 };
