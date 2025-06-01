@@ -12,7 +12,7 @@ router.get("/products/add", adminController.getAddProduct);
 
 router.post("/products/add", handleImage, adminController.addProduct);
 
-router.get("/products/update/:productId", adminController.getUpdateProduct); // dynamic routes
+router.get("/products/update/:productId", adminController.getUpdateProduct);
 
 router.post(
   "/products/update/:productId",

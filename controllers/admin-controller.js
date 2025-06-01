@@ -23,6 +23,8 @@ function getAddProduct(req, res) {
 }
 
 async function addProduct(req, res, next) {
+  // req.body 객체를 통해 클라이언트가 제출한 폼 데이터(urlencoded 인코딩)에 접근할 수 있다.
+  // req.file 객체를 통해 클라이언트가 제출한 파일 데이터(multer 미들웨어 패키지를 사용해서)에 접근할 수 있다.
   const product = new Product({
     ...req.body,
     image: req.file.filename,
@@ -78,8 +80,6 @@ async function deleteProduct(req, res, next) {
     return;
   }
 
-  // this request is javascript-driven so that we should not render any view
-  // res.render("/admin/products");
   res.json({
     message: "Product deleted.",
   });

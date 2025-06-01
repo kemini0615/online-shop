@@ -18,8 +18,8 @@ const adminRouter = require("./routes/admin-routes");
 const cartRouter = require("./routes/cart-routes");
 const orderRouter = require("./routes/order-routes");
 
-const handleErrors = require("./middlewares/handleErrors");
 const protectResources = require("./middlewares/protectResources");
+const handleErrors = require("./middlewares/handleErrors");
 const handleNotFound = require("./middlewares/handleNotFound");
 
 const mongodb = require("./database/mongodb");

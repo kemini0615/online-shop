@@ -36,11 +36,11 @@ async function signup(req, res, next) {
       req.body.password,
       req.body.fullname,
       req.body.address,
-      req.body.postal,
+      req.body.postal
     ) ||
     !validationUtil.passwordIsConfirmed(
       req.body["password"],
-      req.body["confirm-password"],
+      req.body["confirm-password"]
     )
   ) {
     flashUtil.flashDataToSession(
@@ -49,7 +49,7 @@ async function signup(req, res, next) {
         errorLog: "Invalid Data.",
         ...userInputData,
       },
-      function () {},
+      function () {}
     );
     res.redirect("/signup");
     return;
@@ -60,11 +60,11 @@ async function signup(req, res, next) {
     req.body.password,
     req.body.fullname,
     req.body.address,
-    req.body.postal,
+    req.body.postal
   );
 
-  // Express error handler middleware could not handle asynchronous errors
-  // You should handle these kinds of errors with try-catch
+  // Express의 에러 핸들러(미들웨어)는 비동기 에러를 처리할 수 없다.
+  // 비동기 에러는 try-catch를 사용해서 직접 처리해야 한다.
   try {
     if (await user.existsAlready()) {
       flashUtil.flashDataToSession(
@@ -73,7 +73,7 @@ async function signup(req, res, next) {
           errorLog: "Existing user.",
           ...userInputData,
         },
-        function () {},
+        function () {}
       );
       res.redirect("/signup");
       return;
@@ -81,7 +81,7 @@ async function signup(req, res, next) {
 
     await user.signup();
   } catch (err) {
-    next(); // express error handler middleware would be active
+    next();
     return;
   }
 
@@ -121,14 +121,14 @@ async function login(req, res) {
         email: req.body.email,
         password: req.body.password,
       },
-      function () {},
+      function () {}
     );
     res.redirect("/login");
     return;
   }
 
   const passwordIsCorrect = await user.hasCorrectPassword(
-    existingUser.password,
+    existingUser.password
   );
 
   if (!passwordIsCorrect) {
@@ -139,7 +139,7 @@ async function login(req, res) {
         email: req.body.email,
         password: req.body.password,
       },
-      function () {},
+      function () {}
     );
     res.redirect("/login");
     return;

@@ -1,5 +1,5 @@
 function protectResources(req, res, next) {
-  if (!res.locals.isAuth) {
+  if (!res.locals.isAuthenticated) {
     return res.redirect("/401");
   }
 
